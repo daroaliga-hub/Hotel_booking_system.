@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% block content %}
+
+<h2>My Bookings</h2>
+
+<table class="table table-bordered">
+  <tr>
+    <th>Room</th>
+
+    <th>Check In</th>
+
+    <th>Check Out</th>
+
+    <th>Amount</th>
+
+    <th>Status</th>
+  </tr>
+
+  {% for booking in bookings %}
+
+  <tr>
+    <td>{{ booking.room.room_number }}</td>
+
+    <td>{{ booking.check_in_date }}</td>
+
+    <td>{{ booking.check_out_date }}</td>
+
+    <td>₦{{ booking.total_amount }}</td>
+
+    <td>{{ booking.status }}</td>
+  </tr>
+
+  {% empty %}
+
+  <tr>
+    <td colspan="5">No bookings found.</td>
+  </tr>
+
+  {% endfor %}
+</table>
+
+{% endblock %}
