@@ -1,11 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hostel Booking</title>
-</head>
-<body>
-    <h1>Welcome to Hostel Booking System</h1>
-</body>
-</html>
+{% extends 'base.html' %} {% block title %} Home {% endblock %} {% block content
+%}
+
+<div class="text-center mb-5">
+  <h1>Welcome To Our Hotel</h1>
+
+  <p class="lead">Book comfortable rooms easily.</p>
+
+  <a href="{% url 'room_list' %}" class="btn btn-primary"> View Rooms </a>
+</div>
+
+<h2>Featured Rooms</h2>
+
+<div class="row">
+  {% for room in featured %}
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      {% if room.image %}
+
+      <img src="{{ room.image.url }}" class="card-img-top" height="250" />
+
+      {% endif %}
+
+      <div class="card-body">
+        <h5>{{ room.get_room_type_display }}</h5>
+
+        <p>Room Number: {{ room.room_number }}</p>
+
+        <p>₦{{ room.price_per_night }} / night</p>
+
+        <a href="{% url 'room_detail' room.id %}" class="btn btn-dark">
+          View Details
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {% empty %}
+
+  <p>No rooms available.</p>
+
+  {% endfor %}
+</div>
+
+{% endblock %}
