@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="card">
+  {% if room.image %}
+
+  <img src="{{ room.image.url }}" class="card-img-top" height="400" />
+
+  {% endif %}
+
+  <div class="card-body">
+    <h2>{{ room.get_room_type_display }}</h2>
+
+    <p>Room Number: {{ room.room_number }}</p>
+
+    <p>{{ room.description }}</p>
+
+    <p>Amenities: {{ room.amenities }}</p>
+
+    <h4>₦{{ room.price_per_night }} per night</h4>
+
+    <a href="{% url 'book_room' room.id %}" class="btn btn-success">
+      Book Now
+    </a>
+  </div>
+</div>
+
+{% endblock %}
