@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% block content %}
+
+<h2>Book Room {{ room.room_number }}</h2>
+
+<div class="card p-4">
+  <form method="POST">
+    {% csrf_token %} {{ form.as_p }}
+
+    <button class="btn btn-success">Confirm Booking</button>
+  </form>
+</div>
+
+{% endblock %}
