@@ -3,13 +3,33 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Room, Booking
-from .forms import CustomerRegistrationForm, BookingForm
+from .forms import CustomerRegistrationForm, BookingForm,AvailabilitySearchForm
 from datetime import datetime
 
 def home(request):
-    featured = Room.objects.filter(is_available=True)[:6]
-    return render(request, 'home.html', {'featured': featured})
 
+    featured = Room.objects.filter(
+        is_available=True
+    )[:4]
+
+
+    search_form = AvailabilitySearchForm()
+
+
+    context = {
+
+        'featured': featured,
+
+        'search_form': search_form,
+
+    }
+
+
+    return render(
+        request,
+        'home.html',
+        context
+    )
 def room_list(request):
     rooms = Room.objects.filter(is_available=True)
     return render(request, 'room_list.html', {'rooms': rooms})
