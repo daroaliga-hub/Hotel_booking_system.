@@ -135,7 +135,47 @@ def book_room(request, room_id):
                 messages.success(request, f"Booking successful for Room {room.room_number}!")
                 return redirect('dashboard')
     else:
-        form = BookingForm()
+
+        initial_data = {}
+
+
+        check_in = request.GET.get(
+            'check_in'
+        )
+
+        check_out = request.GET.get(
+            'check_out'
+        )
+
+        num_guests = request.GET.get(
+            'num_guests'
+        )
+
+
+    if check_in:
+
+        initial_data[
+            'check_in_date'
+        ] = check_in
+
+
+    if check_out:
+
+        initial_data[
+            'check_out_date'
+        ] = check_out
+
+
+    if num_guests:
+
+        initial_data[
+            'num_guests'
+        ] = num_guests
+
+
+    form = BookingForm(
+        initial=initial_data
+    )
 
     return render(request, 'book_room.html', {'form': form, 'room': room})
 
