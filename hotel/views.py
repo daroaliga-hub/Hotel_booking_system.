@@ -107,3 +107,115 @@ def book_room(request, room_id):
 def user_logout(request):
     logout(request)
     return redirect('home')
+
+def search_rooms(request):
+
+    form = AvailabilitySearchForm(
+        request.GET or None
+    )
+
+    rooms = Room.objects.none()
+
+
+    if form.is_valid():
+
+        check_in = form.cleaned_data[
+            'check_in'
+        ]
+
+        check_out = form.cleaned_data[
+            'check_out'
+        ]
+
+        num_guests = form.cleaned_data[
+            'num_guests'
+        ]
+
+
+        # Step 1:
+        # Find bookings that overlap
+        # with the requested dates.
+
+        overlapping_bookings = Booking.objects.filter(
+
+            check_in_date__lt=check_out,
+
+            check_out_date__gt=check_in,
+
+            status__in=[
+                'pending',
+                'confirmed',
+                'checked_in',
+            ]
+
+        )
+
+
+        # Step 2:
+        # Get the IDs of rooms
+        # already occupied.
+
+        unavailable_room_ids = (
+            overlapping_bookings
+            .values_list(
+                'room_id',
+                flat=True
+            )
+        )
+
+
+        # Step 3:
+        # Find rooms that:
+        #
+        # - are active
+        # - hold enough guests
+        # - are not already booked
+
+        rooms = (
+            Room.objects
+            .filter(
+                is_available=True,
+                capacity__gte=num_guests,
+            )
+            .exclude(
+                id__in=unavailable_room_ids
+            )
+        )
+
+
+        context = {
+
+            'form': form,
+
+            'rooms': rooms,
+
+            'check_in': check_in,
+
+            'check_out': check_out,
+
+            'num_guests': num_guests,
+
+        }
+
+
+        return render(
+            request,
+            'search_results.html',
+            context
+        )
+
+
+    context = {
+
+        'form': form,
+
+        'rooms': rooms,
+
+    }
+
+
+    return render(
+        request,
+        'search_results.html',
+        context
+    )
