@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Available Rooms
+{% endblock title %}
+
+
+
+{% block content %}
+
+
+<section class="hotel-section">
+
+
+<div class="hotel-container">
+
+
+    <div class="booking-steps">
+
+        <span class="booking-step active">
+            1. Dates
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step active">
+            2. Select Room
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step">
+            3. Details
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step">
+            4. Confirmation
+        </span>
+
+    </div>
+
+
+
+    <div class="section-heading">
+
+        <small>
+            Search Results
+        </small>
+
+        <h2>
+            Available Rooms
+        </h2>
+
+
+        {% if check_in %}
+
+            <p>
+
+                {{ check_in }}
+
+                →
+
+                {{ check_out }}
+
+                ·
+
+                {{ num_guests }}
+                guest{{ num_guests|pluralize }}
+
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+
+    {% if form.errors %}
+
+        <div class="alert alert-danger">
+
+            {{ form.errors }}
+
+        </div>
+
+    {% endif %}
+
+
+
+    <div class="room-grid">
+
+
+        {% for room in rooms %}
+
+
+        <article class="room-card">
+
+
+            {% if room.image %}
+
+                <img
+                    src="{{ room.image.url }}"
+                    alt="{{ room.get_room_type_display }}"
+                    class="room-image"
+                >
+
+            {% else %}
+
+                <div class="room-image-placeholder">
+
+                    No Image
+
+                </div>
+
+            {% endif %}
+
+
+
+            <div class="room-card-content">
+
+
+                <h3>
+
+                    {{ room.get_room_type_display }}
+
+                </h3>
+
+
+                <p>
+
+                    Maximum:
+
+                    {{ room.capacity }}
+
+                    guest{{ room.capacity|pluralize }}
+
+                </p>
+
+
+                <p class="room-description">
+
+                    {{ room.description|truncatewords:30 }}
+
+                </p>
+
+
+                <p class="room-price">
+
+                    ₦{{ room.price_per_night }}
+
+                    <span>
+                        / night
+                    </span>
+
+                </p>
+
+
+
+                <a
+                    href="
+                        {% url 'room_detail' room.id %}
+                        ?check_in={{ check_in|date:'Y-m-d' }}
+                        &check_out={{ check_out|date:'Y-m-d' }}
+                        &num_guests={{ num_guests }}
+                    "
+                    class="hotel-btn"
+                >
+
+                    View Rates & Details
+
+                </a>
+
+
+            </div>
+
+
+        </article>
+
+
+        {% empty %}
+
+
+            <div>
+
+                <h3>
+                    No rooms available
+                </h3>
+
+                <p>
+
+                    Try changing your dates
+                    or number of guests.
+
+                </p>
+
+
+                <a
+                    href="{% url 'home' %}"
+                    class="hotel-btn"
+                >
+                    Search Again
+                </a>
+
+            </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+</div>
+
+
+</section>
+
+
+{% endblock content %}
