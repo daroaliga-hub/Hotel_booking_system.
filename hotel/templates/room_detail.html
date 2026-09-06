@@ -153,19 +153,25 @@
 
 
 
-            <a
-                href="
-                {% url 'book_room' room.id %}
-                ?check_in={{ check_in }}
-                &check_out={{ check_out }}
-                &num_guests={{ num_guests }}
-                "
-                class="hotel-btn"
-            >
+            {% if check_in and check_out and num_guests %}
 
-                Book This Room
+    <a
+        href="{% url 'book_room' room.id %}?check_in={{ check_in }}&check_out={{ check_out }}&num_guests={{ num_guests }}"
+        class="hotel-btn"
+    >
+        Book This Room
+    </a>
 
-            </a>
+{% else %}
+
+    <a
+        href="{% url 'book_room' room.id %}"
+        class="hotel-btn"
+    >
+        Book This Room
+    </a>
+
+{% endif %}
 
 
         </div>
