@@ -1,35 +1,144 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
 
-<h1>Available Rooms</h1>
 
-<div class="row">
-  {% for room in rooms %}
+{% block title %}
+Our Rooms
+{% endblock title %}
 
-  <div class="col-md-4 mb-4">
-    <div class="card">
-      {% if room.image %}
 
-      <img src="{{ room.image.url }}" class="card-img-top" height="220" />
 
-      {% endif %}
+{% block content %}
 
-      <div class="card-body">
-        <h4>{{ room.get_room_type_display }}</h4>
 
-        <p>Room: {{ room.room_number }}</p>
+<section class="hotel-section">
 
-        <p>Capacity: {{ room.capacity }} Guests</p>
 
-        <p>Price: ₦{{ room.price_per_night }}</p>
+<div class="hotel-container">
 
-        <a href="{% url 'room_detail' room.id %}" class="btn btn-primary">
-          Details
-        </a>
-      </div>
+
+    <div class="section-heading">
+
+        <small>
+            Accommodation
+        </small>
+
+        <h2>
+            Rooms & Suites
+        </h2>
+
+        <p>
+
+            Explore our collection of rooms
+            and choose the accommodation that
+            suits your stay.
+
+        </p>
+
     </div>
-  </div>
 
-  {% endfor %}
+
+
+    <div class="room-grid">
+
+
+        {% for room in rooms %}
+
+
+            <article class="room-card">
+
+
+                {% if room.image %}
+
+                    <img
+                        src="{{ room.image.url }}"
+                        class="room-image"
+                        alt="{{ room.get_room_type_display }}"
+                    >
+
+                {% else %}
+
+                    <div class="room-image-placeholder">
+                        No Image
+                    </div>
+
+                {% endif %}
+
+
+
+                <div class="room-card-content">
+
+
+                    <h3>
+
+                        {{ room.get_room_type_display }}
+
+                    </h3>
+
+
+                    <p>
+
+                        Up to
+                        {{ room.capacity }}
+                        guests
+
+                    </p>
+
+
+                    <p class="room-description">
+
+                        {{ room.description|truncatewords:30 }}
+
+                    </p>
+
+
+                    <p class="room-price">
+
+                        From
+
+                        ₦{{ room.price_per_night }}
+
+                        <span>
+                            / night
+                        </span>
+
+                    </p>
+
+
+
+                    <a
+                        href="{% url 'room_detail' room.id %}"
+                        class="hotel-btn"
+                    >
+
+                        View Room
+
+                    </a>
+
+
+                </div>
+
+
+            </article>
+
+
+        {% empty %}
+
+
+            <p>
+                No rooms are currently available.
+            </p>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
 </div>
 
-{% endblock %}
+
+</section>
+
+
+{% endblock content %}
