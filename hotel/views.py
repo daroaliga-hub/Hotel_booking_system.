@@ -113,6 +113,25 @@ def book_room(request, room_id):
             booking.customer = request.user
             booking.room = room
 
+            if booking.num_guests > room.capacity:
+
+                messages.error(
+                    request,
+                    (
+                        f"This room only accommodates "
+                        f"{room.capacity} guests."
+                    )
+                )
+
+                return render(
+                    request,
+                    'book_room.html',
+                    {
+                        'form': form,
+                        'room': room,
+                    }
+                )
+            
             days = (booking.check_out_date - booking.check_in_date).days
             if days <= 0:
                 messages.error(request, "Check-out date must be after check-in date.")
