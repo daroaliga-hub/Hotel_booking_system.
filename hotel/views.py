@@ -35,8 +35,44 @@ def room_list(request):
     return render(request, 'room_list.html', {'rooms': rooms})
 
 def room_detail(request, pk):
-    room = get_object_or_404(Room, pk=pk)
-    return render(request, 'room_detail.html', {'room': room})
+
+    room = get_object_or_404(
+        Room,
+        pk=pk
+    )
+
+
+    check_in = request.GET.get(
+        'check_in'
+    )
+
+    check_out = request.GET.get(
+        'check_out'
+    )
+
+    num_guests = request.GET.get(
+        'num_guests'
+    )
+
+
+    context = {
+
+        'room': room,
+
+        'check_in': check_in,
+
+        'check_out': check_out,
+
+        'num_guests': num_guests,
+
+    }
+
+
+    return render(
+        request,
+        'room_detail.html',
+        context
+    )
 
 def register(request):
     if request.method == 'POST':
