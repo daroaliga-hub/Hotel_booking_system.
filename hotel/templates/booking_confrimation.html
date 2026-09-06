@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Booking Confirmed
+{% endblock title %}
+
+
+
+{% block content %}
+
+
+<section class="hotel-section">
+
+
+<div class="hotel-container">
+
+
+    <div class="booking-steps">
+
+        <span class="booking-step active">
+            ✓ Dates
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step active">
+            ✓ Room
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step active">
+            ✓ Details
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step active">
+            ✓ Confirmation
+        </span>
+
+    </div>
+
+
+
+    <div class="text-center mb-5">
+
+
+        <small>
+            Reservation Complete
+        </small>
+
+
+        <h1>
+            Your stay is booked.
+        </h1>
+
+
+        <p>
+
+            Thank you,
+            {{ request.user.username }}.
+
+        </p>
+
+
+    </div>
+
+
+
+    <div
+        class="booking-summary"
+        style="
+            max-width: 700px;
+            margin: auto;
+        "
+    >
+
+
+        <h3>
+            Reservation Summary
+        </h3>
+
+
+
+        <div class="booking-summary-row">
+
+            <span>
+                Booking ID
+            </span>
+
+            <strong>
+                #{{ booking.id }}
+            </strong>
+
+        </div>
+
+
+
+        <div class="booking-summary-row">
+
+            <span>
+                Room
+            </span>
+
+            <strong>
+
+                {{ booking.room.get_room_type_display }}
+
+            </strong>
+
+        </div>
+
+
+
+        <div class="booking-summary-row">
+
+            <span>
+                Room Number
+            </span>
+
+            <strong>
+
+                {{ booking.room.room_number }}
+
+            </strong>
+
+        </div>
+
+
+
+        <div class="booking-summary-row">
+
+            <span>
+                Check In
+            </span>
+
+            <strong>
+
+                {{ booking.check_in_date }}
+
+            </strong>
+
+        </div>
+
+
+
+        <div class="booking-summary-row">
+
+            <span>
+                Check Out
+            </span>
+
+            <strong>
+
+                {{ booking.check_out_date }}
+
+            </strong>
+
+        </div>
+
+
+
+        <div class="booking-summary-row">
+
+            <span>
+                Guests
+            </span>
+
+            <strong>
+
+                {{ booking.num_guests }}
+
+            </strong>
+
+        </div>
+
+
+
+        <div class="booking-summary-row">
+
+            <span>
+                Status
+            </span>
+
+            <strong>
+
+                {{ booking.get_status_display }}
+
+            </strong>
+
+        </div>
+
+
+
+        <div
+            class="
+                booking-summary-row
+                booking-summary-total
+            "
+        >
+
+            <span>
+                Total
+            </span>
+
+            <strong>
+
+                ₦{{ booking.total_amount }}
+
+            </strong>
+
+        </div>
+
+
+
+        <div class="mt-4">
+
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="hotel-btn"
+            >
+                View My Bookings
+            </a>
+
+
+            <a
+                href="{% url 'room_list' %}"
+                class="hotel-btn-outline"
+            >
+                Browse More Rooms
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</section>
+
+
+{% endblock content %}
