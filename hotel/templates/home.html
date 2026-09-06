@@ -1,46 +1,224 @@
-{% extends 'base.html' %} {% block title %} Home {% endblock title %} 
+{% extends 'base.html' %}
+
+
+{% block title %}
+Hotel Booking
+{% endblock title %}
+
+
+
 {% block content %}
 
-<div class="text-center mb-5">
-  <h1>Welcome To Our Hotel</h1>
 
-  <p class="lead">Book comfortable rooms easily.</p>
+<section
+    class="hero"
+    {% if featured.0.image %}
+        style="
+            background-image:
+            url('{{ featured.0.image.url }}');
+        "
+    {% endif %}
+>
 
-  <a href="{% url 'room_list' %}" class="btn btn-primary"> View Rooms </a>
-</div>
+    <div class="hero-overlay"></div>
 
-<h2>Featured Rooms</h2>
 
-<div class="row">
-  {% for room in featured %}
+    <div class="hero-content">
 
-  <div class="col-md-4 mb-4">
-    <div class="card">
-      {% if room.image %}
+        <h1>
+            Find your perfect stay.
+        </h1>
 
-      <img src="{{ room.image.url }}" class="card-img-top" height="250" />
+        <p>
+            Discover beautiful rooms,
+            exceptional comfort and an
+            effortless booking experience.
+        </p>
 
-      {% endif %}
-
-      <div class="card-body">
-        <h5>{{ room.get_room_type_display }}</h5>
-
-        <p>Room Number: {{ room.room_number }}</p>
-
-        <p>₦{{ room.price_per_night }} / night</p>
-
-        <a href="{% url 'room_detail' room.id %}" class="btn btn-dark">
-          View Details
-        </a>
-      </div>
     </div>
-  </div>
 
-  {% empty %}
+</section>
 
-  <p>No rooms available.</p>
 
-  {% endfor %}
+
+<div class="hotel-container booking-search-wrapper">
+
+    <form
+        method="GET"
+        action="{% url 'search_rooms' %}"
+        class="booking-search"
+    >
+
+
+        <div class="search-field">
+
+            <label>
+                Check In
+            </label>
+
+            {{ search_form.check_in }}
+
+        </div>
+
+
+        <div class="search-field">
+
+            <label>
+                Check Out
+            </label>
+
+            {{ search_form.check_out }}
+
+        </div>
+
+
+        <div class="search-field">
+
+            <label>
+                Guests
+            </label>
+
+            {{ search_form.num_guests }}
+
+        </div>
+
+
+        <div class="search-field">
+
+            <label>
+                Rooms
+            </label>
+
+            <select
+                name="rooms"
+                class="form-control"
+            >
+
+                <option value="1">
+                    1 Room
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="hotel-btn"
+        >
+            Search Rooms
+        </button>
+
+
+    </form>
+
 </div>
 
-{% endblock content%}
+
+
+<section class="hotel-section">
+
+    <div class="hotel-container">
+
+
+        <div class="section-heading">
+
+            <small>
+                Accommodation
+            </small>
+
+            <h2>
+                Featured Rooms
+            </h2>
+
+        </div>
+
+
+
+        <div class="room-grid">
+
+
+            {% for room in featured %}
+
+
+                <article class="room-card">
+
+
+                    {% if room.image %}
+
+                        <img
+                            src="{{ room.image.url }}"
+                            alt="{{ room.get_room_type_display }}"
+                            class="room-image"
+                        >
+
+                    {% else %}
+
+                        <div class="room-image-placeholder">
+
+                            No Image
+
+                        </div>
+
+                    {% endif %}
+
+
+
+                    <div class="room-card-content">
+
+                        <h3>
+                            {{ room.get_room_type_display }}
+                        </h3>
+
+
+                        <p class="room-description">
+
+                            {{ room.description|truncatewords:25 }}
+
+                        </p>
+
+
+                        <p class="room-price">
+
+                            ₦{{ room.price_per_night }}
+
+                            <span>
+                                / night
+                            </span>
+
+                        </p>
+
+
+                        <a
+                            href="{% url 'room_detail' room.id %}"
+                            class="hotel-btn"
+                        >
+                            View Room
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+            {% empty %}
+
+
+                <p>
+                    No rooms are currently available.
+                </p>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+{% endblock content %}
