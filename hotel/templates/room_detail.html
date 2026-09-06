@@ -1,27 +1,183 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
 
-<div class="card">
-  {% if room.image %}
 
-  <img src="{{ room.image.url }}" class="card-img-top" height="400" />
+{% block title %}
+{{ room.get_room_type_display }}
+{% endblock title %}
 
-  {% endif %}
 
-  <div class="card-body">
-    <h2>{{ room.get_room_type_display }}</h2>
 
-    <p>Room Number: {{ room.room_number }}</p>
+{% block content %}
 
-    <p>{{ room.description }}</p>
 
-    <p>Amenities: {{ room.amenities }}</p>
+<section class="hotel-section">
 
-    <h4>₦{{ room.price_per_night }} per night</h4>
 
-    <a href="{% url 'book_room' room.id %}" class="btn btn-success">
-      Book Now
-    </a>
-  </div>
+<div class="hotel-container">
+
+
+    <div class="booking-steps">
+
+        <span class="booking-step active">
+            1. Dates
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step active">
+            2. Room
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step">
+            3. Details
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step">
+            4. Confirmation
+        </span>
+
+    </div>
+
+
+
+    <div class="room-detail-layout">
+
+
+        <div>
+
+
+            {% if room.image %}
+
+                <img
+                    src="{{ room.image.url }}"
+                    class="room-detail-image"
+                    alt="{{ room.get_room_type_display }}"
+                >
+
+            {% else %}
+
+                <div class="room-image-placeholder">
+
+                    No Image Available
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+
+        <div class="room-detail-info">
+
+
+            <small>
+                Accommodation
+            </small>
+
+
+            <h1>
+
+                {{ room.get_room_type_display }}
+
+            </h1>
+
+
+
+            <div class="room-meta">
+
+
+                <div class="room-meta-item">
+
+                    <strong>
+                        Guests
+                    </strong>
+
+                    <br>
+
+                    Up to {{ room.capacity }}
+
+                </div>
+
+
+                <div class="room-meta-item">
+
+                    <strong>
+                        Room
+                    </strong>
+
+                    <br>
+
+                    {{ room.room_number }}
+
+                </div>
+
+
+            </div>
+
+
+
+            <p class="room-description">
+
+                {{ room.description }}
+
+            </p>
+
+
+
+            <h4>
+                Amenities
+            </h4>
+
+
+            <p>
+                {{ room.amenities }}
+            </p>
+
+
+
+            <p class="room-price">
+
+                ₦{{ room.price_per_night }}
+
+                <span>
+                    per night
+                </span>
+
+            </p>
+
+
+
+            <a
+                href="
+                {% url 'book_room' room.id %}
+                ?check_in={{ check_in }}
+                &check_out={{ check_out }}
+                &num_guests={{ num_guests }}
+                "
+                class="hotel-btn"
+            >
+
+                Book This Room
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
 </div>
 
-{% endblock %}
+
+</section>
+
+
+{% endblock content %}
