@@ -151,8 +151,18 @@ def book_room(request, room_id):
                 messages.error(request, "Room is not available for the selected dates.")
             else:
                 booking.save()
-                messages.success(request, f"Booking successful for Room {room.room_number}!")
-                return redirect('dashboard')
+                messages.success(
+                    request,
+                    'Your booking was successfully created.'
+                )
+
+
+                return redirect(
+                    'booking_confirmation',
+                    booking_id=booking.id
+                )
+
+
     else:
 
         initial_data = {}
