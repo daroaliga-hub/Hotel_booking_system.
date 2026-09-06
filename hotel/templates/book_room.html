@@ -1,13 +1,233 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
 
-<h2>Book Room {{ room.room_number }}</h2>
 
-<div class="card p-4">
-  <form method="POST">
-    {% csrf_token %} {{ form.as_p }}
+{% block title %}
+Complete Reservation
+{% endblock title %}
 
-    <button class="btn btn-success">Confirm Booking</button>
-  </form>
+
+
+{% block content %}
+
+
+<section class="hotel-section">
+
+
+<div class="hotel-container">
+
+
+    <div class="booking-steps">
+
+        <span class="booking-step active">
+            ✓ Dates
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step active">
+            ✓ Room
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step active">
+            3. Details
+        </span>
+
+        <span>→</span>
+
+        <span class="booking-step">
+            4. Confirmation
+        </span>
+
+    </div>
+
+
+
+    <div class="section-heading">
+
+        <small>
+            Checkout
+        </small>
+
+        <h2>
+            Complete Your Reservation
+        </h2>
+
+    </div>
+
+
+
+    <div class="checkout-layout">
+
+
+        <div class="checkout-form">
+
+
+            <h3>
+                Booking Details
+            </h3>
+
+
+            <p>
+
+                Please confirm your stay
+                information.
+
+            </p>
+
+
+
+            <form
+                method="POST"
+                class="hotel-form"
+            >
+
+
+                {% csrf_token %}
+
+
+                {{ form.non_field_errors }}
+
+
+                <label>
+                    Check In
+                </label>
+
+                {{ form.check_in_date }}
+
+                {{ form.check_in_date.errors }}
+
+
+
+                <label>
+                    Check Out
+                </label>
+
+                {{ form.check_out_date }}
+
+                {{ form.check_out_date.errors }}
+
+
+
+                <label>
+                    Number of Guests
+                </label>
+
+                {{ form.num_guests }}
+
+                {{ form.num_guests.errors }}
+
+
+
+                <button
+                    type="submit"
+                    class="hotel-btn"
+                >
+
+                    Confirm Reservation
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+
+        <aside class="booking-summary">
+
+
+            <h3>
+                Your Stay
+            </h3>
+
+
+
+            {% if room.image %}
+
+                <img
+                    src="{{ room.image.url }}"
+                    alt="{{ room.get_room_type_display }}"
+                    style="
+                        width: 100%;
+                        height: 180px;
+                        object-fit: cover;
+                        margin-bottom: 20px;
+                    "
+                >
+
+            {% endif %}
+
+
+
+            <div class="booking-summary-row">
+
+                <span>
+                    Room
+                </span>
+
+                <strong>
+                    {{ room.get_room_type_display }}
+                </strong>
+
+            </div>
+
+
+
+            <div class="booking-summary-row">
+
+                <span>
+                    Maximum Guests
+                </span>
+
+                <strong>
+                    {{ room.capacity }}
+                </strong>
+
+            </div>
+
+
+
+            <div class="booking-summary-row">
+
+                <span>
+                    Price
+                </span>
+
+                <strong>
+
+                    ₦{{ room.price_per_night }}
+
+                    / night
+
+                </strong>
+
+            </div>
+
+
+
+            <p class="mt-4">
+
+                The final total will be calculated
+                from your selected check-in and
+                check-out dates.
+
+            </p>
+
+
+        </aside>
+
+
+    </div>
+
+
 </div>
 
-{% endblock %}
+
+</section>
+
+
+{% endblock content %}
